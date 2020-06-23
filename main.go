@@ -14,12 +14,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router.RegisterRoutes(
-		router.Route{"/mike", handler},
-		router.Route{"/wando", handler},
-		router.Route{"/marico", handler},
-		router.Route{"/views/", controller.PageViewHandler},
+		router.Route{Path: "/edit/", Controller: controller.PageEditHandler},
+		router.Route{Path: "/save/", Controller: controller.PageSaveHandler},
+		router.Route{Path: "/views/", Controller: controller.PageViewHandler},
 	)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
-
-
