@@ -6,6 +6,8 @@ import (
 	"text/template"
 )
 
+const templates = "templates/"
+
 //PageViewHandler handles the view request of a page
 func PageViewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/views/"):]
@@ -38,6 +40,7 @@ func PageSaveHandler(w http.ResponseWriter, r *http.Request) {
 
 // renderTemplate: Render Template otherwise throws internal server error
 func renderTemplate(w http.ResponseWriter, tmpl string, p *model.Page) {
+<<<<<<< HEAD
 
 	t, err := template.ParseFiles("templates/" + tmpl + ".html")
 	if err != nil {
@@ -49,4 +52,8 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *model.Page) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+=======
+	t, _ := template.ParseFiles(templates + tmpl + ".html")
+	t.Execute(w, p)
+>>>>>>> 55b995564d4a7c5f392786cbc50cd27fba1e155b
 }
