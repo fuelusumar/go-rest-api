@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"go-rest-api/controller"
-	"go-rest-api/router"
+	c "go-rest-api/controller"
+	r "go-rest-api/router"
 	"log"
 	"net/http"
 )
@@ -13,10 +13,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	router.RegisterRoutes(
-		router.Route{Path: "/edit/", Controller: controller.PageEditHandler},
-		router.Route{Path: "/save/", Controller: controller.PageSaveHandler},
-		router.Route{Path: "/views/", Controller: controller.PageViewHandler},
+	r.RegisterRoutes(
+		r.NewRoute("/edit/", c.PageEditHandler),
+		r.NewRoute("/save/", c.PageSaveHandler),
+		r.NewRoute("/views/", c.PageViewHandler),
 	)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

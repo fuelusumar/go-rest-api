@@ -4,7 +4,7 @@ import "net/http"
 
 //Route route data structure
 type Route struct {
-	Path string
+	Path       string
 	Controller func(http.ResponseWriter, *http.Request)
 }
 
@@ -12,5 +12,12 @@ type Route struct {
 func RegisterRoutes(routes ...Route) {
 	for _, route := range routes {
 		http.HandleFunc(route.Path, route.Controller)
+	}
+}
+
+func NewRoute(path string, controller func(w http.ResponseWriter, r *http.Request)) Route {
+	return Route{
+		Path:       path,
+		Controller: controller,
 	}
 }
