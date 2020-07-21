@@ -68,7 +68,7 @@ func PageSaveHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/views/"+title, http.StatusFound)
+	http.Redirect(w, r, "/view/"+title, http.StatusFound)
 }
 
 // renderTemplate: Render Template otherwise throws internal server error
