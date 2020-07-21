@@ -1,35 +1,18 @@
 package controller
 
 import (
-	"fmt"
 	"go-rest-api/model"
 	"log"
 	"net/http"
-	"regexp"
 	"text/template"
 )
 
 const templatesPath = "templates/"
 
 var templates = template.Must(template.ParseFiles(templatesPath+"edit.html", templatesPath+"view.html"))
-var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
-
-func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
-	m := validPath.FindStringSubmatch(r.URL.Path)
-	if m == nil {
-		http.NotFound(w, r)
-		return "", fmt.Errorf("invalid Page Title %s", r.URL.Path)
-	}
-	return m[2], nil
-}
 
 //PageViewHandler handles the view request of a page
-func PageViewHandler(w http.ResponseWriter, r *http.Request) {
-	title, err := getTitle(w, r)
-	if err != nil {
-		return
-	}
-
+func PageViewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := model.LoadPage(title)
 	if err != nil {
 		log.Print("Page not Fount: ", title)
@@ -40,12 +23,7 @@ func PageViewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // PageEditHandler ...
-func PageEditHandler(w http.ResponseWriter, r *http.Request) {
-	title, err := getTitle(w, r)
-	if err != nil {
-		return
-	}
-
+func PageEditHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := model.LoadPage(title)
 	if err != nil {
 		p = &model.Page{Title: title}
@@ -54,12 +32,7 @@ func PageEditHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // PageSaveHandler ...
-func PageSaveHandler(w http.ResponseWriter, r *http.Request) {
-	title, err := getTitle(w, r)
-	if err != nil {
-		return
-	}
-
+func PageSaveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	body := r.FormValue("body")
 	p := &model.Page{Title: title, Body: []byte(body)}
 
